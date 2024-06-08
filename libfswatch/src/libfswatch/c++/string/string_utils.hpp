@@ -26,6 +26,7 @@
 #ifndef FSW_STRING_UTILS_H
 #  define FSW_STRING_UTILS_H
 
+#include <libfswatch/libfswatch_config.h>
 #include <cstdarg>
 #include <string>
 

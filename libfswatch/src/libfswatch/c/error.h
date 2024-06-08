@@ -27,6 +27,8 @@
 #ifndef FSW__ERROR_H
 #  define FSW__ERROR_H
 
+#include <libfswatch/libfswatch_config.h>
+
 #  ifdef __cplusplus
 extern "C"
 {

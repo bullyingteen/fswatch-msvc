@@ -26,7 +26,8 @@
 #ifndef LIBFSW_EXCEPTION_H
 #  define LIBFSW_EXCEPTION_H
 
-#  include "../c/error.h"
+#include <libfswatch/libfswatch_config.h>
+#  include "libfswatch/c/error.h"
 #  include <exception>
 #  include <string>
 

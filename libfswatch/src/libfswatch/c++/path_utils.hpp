@@ -26,6 +26,7 @@
 #ifndef FSW_PATH_UTILS_H
 #  define FSW_PATH_UTILS_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <string>
 #  include <vector>
 #  include <sys/stat.h>

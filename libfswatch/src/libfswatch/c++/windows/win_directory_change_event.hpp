@@ -25,14 +25,15 @@
 #ifndef FSW_WIN_DIRECTORY_CHANGE_EVENT_H
 #  define	FSW_WIN_DIRECTORY_CHANGE_EVENT_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <cstdlib>
 #  include <string>
 #  include <memory>
 #  include <vector>
 #  include <windows.h>
-#  include "win_handle.hpp"
-#  include "win_error_message.hpp"
-#  include "../event.hpp"
+#  include "libfswatch/c++/windows/win_handle.hpp"
+#  include "libfswatch/c++/windows/win_error_message.hpp"
+#  include "libfswatch/c++/event.hpp"
 
 namespace fsw
 {

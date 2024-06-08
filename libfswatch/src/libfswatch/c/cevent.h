@@ -27,9 +27,10 @@
 #ifndef FSW__CEVENT_H
 #  define FSW__CEVENT_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <time.h>
 #  include <limits.h>
-#  include "libfswatch_types.h"
+#  include "libfswatch/c/libfswatch_types.h"
 
 #  ifdef __cplusplus
 extern "C"

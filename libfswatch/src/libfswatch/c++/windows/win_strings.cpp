@@ -13,27 +13,28 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "win_strings.hpp"
-#include <windows.h>
+#include <libfswatch/libfswatch_config.h>
+#include "libfswatch/c++/windows/win_strings.hpp"
+
+#include <locale>
+#include <codecvt>
+
+using namespace std;
 
 namespace fsw
 {
   namespace win_strings
   {
-    using namespace std;
-
-    string wstring_to_string(wchar_t * s)
+    string wstring_to_string(wchar_t* path)
     {
-      int buf_size = WideCharToMultiByte(CP_UTF8, 0, s, -1, NULL, 0, NULL, NULL);
-      char buf[buf_size];
-      WideCharToMultiByte(CP_UTF8, 0, s, -1, buf, buf_size, NULL, NULL);
-
-      return string(buf);
+      wstring_convert<codecvt_utf8_utf16<wchar_t>> _UTF_Converter;
+      return _UTF_Converter.to_bytes(path);
     }
 
-    string wstring_to_string(const wstring & s)
+    string wstring_to_string(const wstring& path)
     {
-      return wstring_to_string((wchar_t *)s.c_str());
+      wstring_convert<codecvt_utf8_utf16<wchar_t>> _UTF_Converter;
+      return _UTF_Converter.to_bytes(path);
     }
   }
 }

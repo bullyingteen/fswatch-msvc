@@ -28,6 +28,7 @@
 #ifndef FSW__FILTER_H
 #  define FSW__FILTER_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <string>
 #  include "libfswatch/c/cfilter.h"
 #  include <vector>

@@ -25,6 +25,7 @@
 #ifndef FSW_WINDOWS_HANDLE_H
 #  define FSW_WINDOWS_HANDLE_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <windows.h>
 
 namespace fsw

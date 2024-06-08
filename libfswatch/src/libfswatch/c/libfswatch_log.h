@@ -26,6 +26,7 @@
 #ifndef LIBFSW_LOG_H
 #  define LIBFSW_LOG_H
 
+#include <libfswatch/libfswatch_config.h>
 #include <stdio.h>
 
 /**

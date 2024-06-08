@@ -432,7 +432,7 @@
  *
  *   - The order in the filter definition has no effect.
  */
-#include "libfswatch/gettext_defs.h"
+#include <libfswatch/libfswatch_config.h>
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -440,8 +440,7 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include <libfswatch/libfswatch_config.h>
-#include "libfswatch.h"
+#include "libfswatch/c/libfswatch.h"
 #include "libfswatch/c++/libfswatch_map.hpp"
 #include "libfswatch/c++/filter.hpp"
 #include "libfswatch/c++/monitor.hpp"

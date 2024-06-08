@@ -13,10 +13,18 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "libfswatch/gettext_defs.h"
-#include "path_utils.hpp"
+#include <libfswatch/libfswatch_config.h>
+#include "libfswatch/c++/path_utils.hpp"
 #include "libfswatch/c/libfswatch_log.h"
-#include <dirent.h>
+
+#ifdef HAVE_WINDOWS
+#include <windows.h>
+#include "libfswatch/c++/windows/win_strings.hpp"
+#include "libfswatch/c++/windows/win_paths.hpp"
+#include "libfswatch/c++/windows/win_error_message.hpp"
+#endif
+
+#include "libfswatch/c++/libfswatch_exception.hpp"
 #include <cstdlib>
 #include <cstdio>
 #include <cerrno>
@@ -25,11 +33,39 @@
 
 using namespace std;
 
+extern "C" {
+  char* __cdecl realpath( const char * name, char * resolved );
+}
+
 namespace fsw
 {
   vector<string> get_directory_children(const string& path)
   {
     vector<string> children;
+
+#ifdef HAVE_WINDOWS
+    wstring wpath = win_paths::posix_to_win_w(path);
+
+    WIN32_FIND_DATAW find_file_data;
+    HANDLE handle = FindFirstFileW(wpath.c_str(), &find_file_data);
+    if (handle == INVALID_HANDLE_VALUE) {
+      auto err = win_error_message::current();
+      string errmsg = win_strings::wstring_to_string(err.get_message());
+      errmsg.append(": ");
+      errmsg.append(path);
+      fsw_log_perror(errmsg.c_str());
+      // throw libfsw_exception( win_strings::wstring_to_string(err.get_message()), err.get_error_code() );
+    }
+
+    do {
+      // if (find_file_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+      // } else {
+      // }
+      children.push_back( win_paths::win_w_to_posix(find_file_data.cFileName ? find_file_data.cFileName : L"") );
+    } while (FindNextFileW(handle, &find_file_data));
+
+    FindClose(handle);
+#else
     DIR *dir = opendir(path.c_str());
 
     if (!dir)
@@ -52,7 +88,7 @@ namespace fsw
     }
 
     closedir(dir);
-
+#endif
     return children;
   }
 
@@ -94,10 +130,13 @@ namespace fsw
 
   bool lstat_path(const string& path, struct stat& fd_stat)
   {
+  #ifndef HAVE_WINDOWS
     if (lstat(path.c_str(), &fd_stat) == 0)
       return true;
-
     fsw_logf_perror(_("Cannot lstat %s"), path.c_str());
     return false;
+  #else
+    return stat_path(path, fd_stat);
+  #endif
   }
 }

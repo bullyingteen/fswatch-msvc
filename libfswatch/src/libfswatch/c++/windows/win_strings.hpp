@@ -26,6 +26,7 @@
 #ifndef FSW_WIN_STRINGS_H
 #  define  FSW_WIN_STRINGS_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <string>
 #  include <cwchar>
 

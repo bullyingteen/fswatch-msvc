@@ -25,7 +25,8 @@
 
 #ifndef FSW__CFILTER_H
 #  define FSW__CFILTER_H
-#  include "cevent.h"
+#include <libfswatch/libfswatch_config.h>
+#  include "libfswatch/c/cevent.h"
 
 #  ifdef __cplusplus
 extern "C"

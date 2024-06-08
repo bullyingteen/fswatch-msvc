@@ -17,8 +17,7 @@
 
 #ifdef HAVE_WINDOWS
 
-#  include "libfswatch/gettext_defs.h"
-#  include "win_error_message.hpp"
+#  include "libfswatch/c++/windows/win_error_message.hpp"
 #  include "libfswatch/c/libfswatch_log.h"
 
 using namespace std;

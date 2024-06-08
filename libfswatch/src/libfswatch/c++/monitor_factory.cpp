@@ -13,27 +13,14 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <utility>
 #include <libfswatch/libfswatch_config.h>
-#include "libfswatch/gettext_defs.h"
-#include "monitor_factory.hpp"
-#include "libfswatch_exception.hpp"
-#if defined(HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE)
-  #include "fsevents_monitor.hpp"
-#endif
-#if defined(HAVE_SYS_EVENT_H)
-  #include "kqueue_monitor.hpp"
-#endif
-#if defined(HAVE_PORT_H)
-  #include "fen_monitor.hpp"
-#endif
-#if defined(HAVE_SYS_INOTIFY_H)
-  #include "inotify_monitor.hpp"
-#endif
+#include <utility>
+#include "libfswatch/c++/monitor_factory.hpp"
+#include "libfswatch/c++/libfswatch_exception.hpp"
+
 #if defined(HAVE_WINDOWS)
   #include "windows_monitor.hpp"
 #endif
-#include "poll_monitor.hpp"
 
 namespace fsw
 {
@@ -43,19 +30,7 @@ namespace fsw
   {
     fsw_monitor_type type;
 
-#if defined(HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE)
-    type = fsw_monitor_type::fsevents_monitor_type;
-#elif defined(HAVE_SYS_EVENT_H)
-    type = fsw_monitor_type::kqueue_monitor_type;
-#elif defined(HAVE_PORT_H)
-    type = fsw_monitor_type::fen_monitor_type;
-#elif defined(HAVE_SYS_INOTIFY_H)
-    type = fsw_monitor_type::inotify_monitor_type;
-#elif defined(HAVE_WINDOWS)
     type = fsw_monitor_type::windows_monitor_type;
-#else
-    type = fsw_monitor_type::poll_monitor_type;
-#endif
 
     return monitor_factory::create_monitor(type,
                                            std::move(paths),
@@ -70,33 +45,16 @@ namespace fsw
   {
     switch (type)
     {
-    case system_default_monitor_type:
-      return create_default_monitor(paths, callback, context);
+      case system_default_monitor_type:
+        return create_default_monitor(paths, callback, context);
 
-#if defined(HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE)
-      case fsevents_monitor_type:
-        return new fsevents_monitor(paths, callback, context);
-#endif
-#if defined(HAVE_SYS_EVENT_H)
-      case kqueue_monitor_type:return new kqueue_monitor(paths, callback, context);
-#endif
-#if defined(HAVE_SYS_INOTIFY_H)
-      case inotify_monitor_type:
-        return new inotify_monitor(paths, callback, context);
-#endif
 #if defined(HAVE_WINDOWS)
       case windows_monitor_type:
         return new windows_monitor(paths, callback, context);
 #endif
-    case poll_monitor_type:
-      return new poll_monitor(paths, callback, context);
-#if defined(HAVE_PORT_H)
-      case fen_monitor_type:
-        return new fen_monitor(paths, callback, context);
-#endif
-    default:
-      throw libfsw_exception("Unsupported monitor.",
-                             FSW_ERR_UNKNOWN_MONITOR_TYPE);
+      default:
+        throw libfsw_exception("Unsupported monitor.",
+                              FSW_ERR_UNKNOWN_MONITOR_TYPE);
     }
   }
 
@@ -105,23 +63,9 @@ namespace fsw
 #define fsw_quote(x) #x
     static std::map<std::string, fsw_monitor_type> creator_by_string_set;
 
-#if defined(HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE)
-    creator_by_string_set[fsw_quote(fsevents_monitor)] = fsw_monitor_type::fsevents_monitor_type;
-#endif
-#if defined(HAVE_SYS_EVENT_H)
-    creator_by_string_set[fsw_quote(kqueue_monitor)] = fsw_monitor_type::kqueue_monitor_type;
-#endif
-#if defined(HAVE_PORT_H)
-    creator_by_string_set[fsw_quote(fen_monitor)] = fsw_monitor_type::fen_monitor_type;
-#endif
-#if defined(HAVE_SYS_INOTIFY_H)
-    creator_by_string_set[fsw_quote(inotify_monitor)] = fsw_monitor_type::inotify_monitor_type;
-#endif
 #if defined(HAVE_WINDOWS)
     creator_by_string_set[fsw_quote(windows_monitor)] = fsw_monitor_type::windows_monitor_type;
 #endif
-    creator_by_string_set[fsw_quote(
-      poll_monitor)] = fsw_monitor_type::poll_monitor_type;
 
     return creator_by_string_set;
 #undef fsw_quote

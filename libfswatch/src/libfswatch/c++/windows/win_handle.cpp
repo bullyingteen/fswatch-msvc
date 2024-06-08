@@ -17,8 +17,7 @@
 
 #ifdef HAVE_WINDOWS
 
-#  include "libfswatch/gettext_defs.h"
-#  include "win_handle.hpp"
+#  include "libfswatch/c++/windows/win_handle.hpp"
 #  include "libfswatch/c/libfswatch_log.h"
 
 using namespace std;
@@ -37,7 +36,7 @@ namespace fsw
   {
     if (is_valid())
     {
-      FSW_ELOGF(_("Closing handle: %d.\n"), h);
+      FSW_ELOGF("Closing handle: %d.\n", h);
       CloseHandle(h);
     }
   }

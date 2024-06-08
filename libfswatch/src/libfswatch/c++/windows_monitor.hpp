@@ -26,7 +26,8 @@
 #ifndef FSW_WINDOWS_MONITOR_H
 #  define FSW_WINDOWS_MONITOR_H
 
-#  include "monitor.hpp"
+#include <libfswatch/libfswatch_config.h>
+#  include "libfswatch/c++/monitor.hpp"
 #  include <string>
 #  include <vector>
 

@@ -13,10 +13,10 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "libfswatch_exception.hpp"
+#include <libfswatch/libfswatch_config.h>
+#include "libfswatch/c++/libfswatch_exception.hpp"
 
 #include <utility>
-#include "libfswatch/gettext_defs.h"
 
 using namespace std;
 

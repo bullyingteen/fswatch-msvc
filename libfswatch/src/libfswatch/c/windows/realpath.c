@@ -18,12 +18,12 @@
  *
  */
 
+#include <libfswatch/libfswatch_config.h>
 #include <io.h>
 #include <stdlib.h>
 #include <errno.h>
 
-_CRTIMP char __cdecl
-*realpath( const char *__restrict__ name, char *__restrict__ resolved )
+_CRTIMP char* __cdecl realpath( const char * restrict name, char * restrict resolved )
 {
   char *retname = NULL;  /* we will return this, if we fail */
 

@@ -26,6 +26,7 @@
 #ifndef FSW_WIN_PATHS_HPP
 #  define  FSW_WIN_PATHS_HPP
 
+#include <libfswatch/libfswatch_config.h>
 #  include <string>
 
 namespace fsw

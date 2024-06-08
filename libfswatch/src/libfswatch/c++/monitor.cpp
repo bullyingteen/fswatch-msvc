@@ -14,12 +14,11 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <libfswatch/libfswatch_config.h>
-#include "libfswatch/gettext_defs.h"
-#include "monitor.hpp"
-#include "monitor_factory.hpp"
-#include "libfswatch_exception.hpp"
+#include "libfswatch/c++/monitor.hpp"
+#include "libfswatch/c++/monitor_factory.hpp"
+#include "libfswatch/c++/libfswatch_exception.hpp"
 #include "libfswatch/c/libfswatch_log.h"
-#include "string/string_utils.hpp"
+#include "libfswatch/c++/string/string_utils.hpp"
 #include <cstdlib>
 #include <algorithm>
 #include <memory>
@@ -248,8 +247,10 @@ monitor::~monitor()
       time_t curr_time;
       time(&curr_time);
 
+      auto curr_time_point = std::chrono::system_clock::now();
+
       std::vector<event> events;
-      events.push_back({"", curr_time, {NoOp}});
+      events.push_back({"", curr_time, curr_time_point, {NoOp}});
 
       mon->notify_events(events);
     }
@@ -325,8 +326,9 @@ monitor::~monitor()
 
     time_t curr_time;
     time(&curr_time);
+    auto curr_time_point = std::chrono::system_clock::now();
 
-    notify_events({{path, curr_time, {fsw_event_flag::Overflow}}});
+    notify_events({{path, curr_time, curr_time_point, {fsw_event_flag::Overflow}}});
   }
 
   void monitor::notify_events(const std::vector<event>& events) const
@@ -351,6 +353,7 @@ monitor::~monitor()
 
       filtered_events.emplace_back(event.get_path(),
                                    event.get_time(),
+                                   event.get_time_point(),
                                    filtered_flags,
                                    event.get_correlation_id());
     }
@@ -375,7 +378,7 @@ monitor::~monitor()
         std::vector<fsw_event_flag> bubbled_flags(flags.size());
         std::move(flags.begin(), flags.end(), bubbled_flags.begin());
 
-        filtered_events.emplace_back(bubble_key.second, bubble_key.first, bubbled_flags);
+        filtered_events.emplace_back(bubble_key.second, bubble_key.first, std::chrono::system_clock::from_time_t(bubble_key.first), bubbled_flags);
       }
     }
 

@@ -13,22 +13,22 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "libfswatch/gettext_defs.h"
-#include "event.hpp"
-#include "libfswatch_exception.hpp"
+#include <libfswatch/libfswatch_config.h>
+#include "libfswatch/c++/event.hpp"
+#include "libfswatch/c++/libfswatch_exception.hpp"
 #include <map>
 
 using namespace std;
 
 namespace fsw
 {
-  event::event(string path, time_t evt_time, vector<fsw_event_flag> flags) :
-    path(std::move(path)), evt_time(evt_time), evt_flags(std::move(flags))
+  event::event(string path, time_t evt_time, std::chrono::system_clock::time_point evt_time_point, vector<fsw_event_flag> flags) :
+    path(std::move(path)), evt_time(evt_time), evt_time_point(evt_time_point), evt_flags(std::move(flags))
   {
   }
 
-  event::event(string path, time_t evt_time, vector<fsw_event_flag> flags, unsigned long correlation_id) :
-    path(std::move(path)), evt_time(evt_time), evt_flags(std::move(flags)), correlation_id(correlation_id)
+  event::event(string path, time_t evt_time, std::chrono::system_clock::time_point evt_time_point, vector<fsw_event_flag> flags, unsigned long correlation_id) :
+    path(std::move(path)), evt_time(evt_time), evt_time_point(evt_time_point), evt_flags(std::move(flags)), correlation_id(correlation_id)
   {
   }
 
@@ -42,6 +42,11 @@ namespace fsw
   time_t event::get_time() const
   {
     return evt_time;
+  }
+
+  std::chrono::system_clock::time_point event::get_time_point() const
+  {
+    return evt_time_point;
   }
 
   vector<fsw_event_flag> event::get_flags() const

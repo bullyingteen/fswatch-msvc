@@ -13,7 +13,8 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "cevent.h"
+#include <libfswatch/libfswatch_config.h>
+#include "libfswatch/c/cevent.h"
 #include <cstdlib>
 #include <cstring>
 #include "libfswatch/c++/event.hpp"

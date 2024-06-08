@@ -29,14 +29,15 @@
 #ifndef FSW__MONITOR_H
 #  define FSW__MONITOR_H
 
-#  include "filter.hpp"
+#include <libfswatch/libfswatch_config.h>
+#  include "libfswatch/c++/filter.hpp"
 #  include <vector>
 #  include <string>
 #  include <mutex>
 #  include <atomic>
 #  include <chrono>
 #  include <map>
-#  include "event.hpp"
+#  include "libfswatch/c++/event.hpp"
 #  include "libfswatch/c/cmonitor.h"
 
 /**
@@ -611,8 +612,8 @@ namespace fsw
      */
     mutable std::mutex notify_mutex;
 
-  private:
     std::chrono::milliseconds get_latency_ms() const;
+  private:
     std::vector<compiled_monitor_filter> filters;
     std::vector<fsw_event_type_filter> event_type_filters;
 

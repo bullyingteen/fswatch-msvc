@@ -28,6 +28,8 @@
 #ifndef LIBFSWATCH_TYPES_H
 #define LIBFSWATCH_TYPES_H
 
+#include <libfswatch/libfswatch_config.h>
+
 #ifdef __cplusplus
 extern "C"
 {

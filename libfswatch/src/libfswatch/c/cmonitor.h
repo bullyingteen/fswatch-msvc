@@ -26,6 +26,7 @@
 #ifndef FSW__CMONITOR_H
 #  define FSW__CMONITOR_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <time.h>
 
 #  ifdef __cplusplus

@@ -13,9 +13,10 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "libfswatch.h"
-#include "libfswatch_log.h"
-#include "../c++/string/string_utils.hpp"
+#include <libfswatch/libfswatch_config.h>
+#include "libfswatch/c/libfswatch.h"
+#include "libfswatch/c/libfswatch_log.h"
+#include "libfswatch/c++/string/string_utils.hpp"
 #include <cstdarg>
 
 using namespace std;

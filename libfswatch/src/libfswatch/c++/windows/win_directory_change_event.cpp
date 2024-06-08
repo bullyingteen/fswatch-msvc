@@ -14,12 +14,11 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <libfswatch/libfswatch_config.h>
-#include "win_directory_change_event.hpp"
-#include "win_paths.hpp"
-#include "win_strings.hpp"
+#include "libfswatch/c++/windows/win_strings.hpp"
+#include "libfswatch/c++/windows/win_paths.hpp"
+#include "libfswatch/c++/windows/win_directory_change_event.hpp"
 #include "libfswatch/c++/libfswatch_exception.hpp"
 #include "libfswatch/c/libfswatch_log.h"
-#include "libfswatch/gettext_defs.h"
 #include <string>
 #include <cstdlib>
 #include <set>
@@ -69,8 +68,8 @@ namespace fsw
       bytes_returned{}
     {
       buffer.reset(malloc(buffer_size));
-      if (buffer.get() == nullptr) throw libfsw_exception(_("malloc failed."));
-      if (overlapped.get() == nullptr) throw libfsw_exception(_("malloc failed."));
+      if (buffer.get() == nullptr) throw libfsw_exception("malloc failed.");
+      if (overlapped.get() == nullptr) throw libfsw_exception("malloc failed.");
     }
 
   bool directory_change_event::is_io_incomplete()
@@ -87,7 +86,7 @@ namespace fsw
   {
     continue_read();
 
-    FSW_ELOGF(_("%p.\n"), this);
+    FSW_ELOGF("%p.\n", this);
 
     return ReadDirectoryChangesW((HANDLE) handle,
                                  buffer.get(),
@@ -106,16 +105,16 @@ namespace fsw
 
     read_error = win_error_message::current();
 
-    FSW_ELOGF(_("GetOverlappedResult: %s\n"), win_strings::wstring_to_string((wstring) read_error).c_str());
+    FSW_ELOGF("GetOverlappedResult: %s\n", ::fsw::win_strings::wstring_to_string((wstring) read_error).c_str());
 
     return ret;
   }
 
   void directory_change_event::continue_read()
   {
-    if (!ResetEvent(overlapped.get()->hEvent)) throw libfsw_exception(_("ResetEvent failed."));
+    if (!ResetEvent(overlapped.get()->hEvent)) throw libfsw_exception("ResetEvent failed.");
 
-    FSW_ELOGF(_("Event %d reset.\n"), overlapped.get()->hEvent);
+    FSW_ELOGF("Event %d reset.\n", overlapped.get()->hEvent);
   }
 
   vector<event> directory_change_event::get_events()
@@ -125,6 +124,8 @@ namespace fsw
 
     time_t curr_time;
     time(&curr_time);
+
+    auto curr_time_point = std::chrono::system_clock::now();
 
     char * curr_entry = static_cast<char *> (buffer.get());
 
@@ -144,11 +145,11 @@ namespace fsw
           + L"\\"
           + wstring(currEntry->FileName, currEntry->FileNameLength / sizeof (wchar_t));
 
-        events.push_back({win_paths::win_w_to_posix(file_name), curr_time, decode_flags(currEntry->Action)});
+        events.push_back({win_paths::win_w_to_posix(file_name), curr_time, curr_time_point, decode_flags(currEntry->Action)});
       }
       else
       {
-        cerr << _("File name unexpectedly empty.") << endl;
+        cerr << "File name unexpectedly empty." << endl;
       }
 
       curr_entry = (currEntry->NextEntryOffset == 0) ? nullptr : curr_entry + currEntry->NextEntryOffset;

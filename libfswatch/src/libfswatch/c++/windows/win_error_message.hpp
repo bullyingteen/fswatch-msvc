@@ -25,6 +25,7 @@
 #ifndef FSW_WINDOWS_ERROR_MESSAGE_H
 #  define FSW_WINDOWS_ERROR_MESSAGE_H
 
+#include <libfswatch/libfswatch_config.h>
 #  include <string>
 #  include <windows.h>
 
