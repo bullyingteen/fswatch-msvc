@@ -39,6 +39,12 @@ int main() {
 
 ```
 
+## BUILD
+
+I wrote msvc.py the other day to have fun with C++20 modules without cringey visual studio projects and MSBuild. 
+You will have to spawn VS Developer Powershell and run `py libfswatch.py build`.
+Also `py libfswatch.py test` runs simple unit test that generates different filesystem events and logs them. 
+
 ## MOTIVATION
 
 I personally wanted libfswatch for my project on windows but it is really annoying to build with cygwin (In fact I could not make it work in 2 hours despite installed everything).
