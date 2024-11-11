@@ -13,6 +13,8 @@ This is a pretty simple C++20 module that exports namespace fswatch with:
 Service basically spawns a background thread that polls filesystem for updates.
 
 ```cpp
+import fswatch;
+
 int main() {
   std::vector<std::filesystem::path> paths{"watched/directory", "watched/sub/directory"};
   fswatch::Configuration conf{ .latency = std::chrono::milliseconds{100}, .recursive = false };
